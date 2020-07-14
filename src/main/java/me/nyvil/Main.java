@@ -23,18 +23,22 @@ import java.util.stream.Stream;
 
 public class Main {
 
-    private static String[] stringsToCheck = {"public static void main(String[] args)", "Runtime", "ProcessBuilder", "HttpURLConnection", "URLConnection", "Process"};
+    private static String[] stringsToCheck = {"public static void main(String[] args)", "Runtime", "ProcessBuilder", "HttpURLConnection", "URLConnection", "Process", "isProcessRunning",
+            "isProcessRunningTitle"
+    };
 
 
-    //TODO: If bored, check for reflections
+    //TODO: If bored make a check for reflections (I'll prolly never do it)
     public static void main(String[] args) {
         final List<CheckedLine> checkedLines = listFiles();
         writeCheckedLines(checkedLines);
     }
 
-    /** Simple method to get the Path of
-    * the jar
-    * @return Path of the jar
+    /**
+     * Simple method to get the Path of
+     * the jar
+     *
+     * @return Path of the jar
      */
     public static Path getFileLocation() {
         try {
@@ -45,9 +49,11 @@ public class Main {
         }
     }
 
-    /** Checks the files and searches for specific code
-     *  and if it is found it is added to CheckedLines to write it later
-     *  to the file
+    /**
+     * Checks the files and searches for specific code
+     * and if it is found it is added to CheckedLines to write it later
+     * to the file
+     *
      * @return checkedLines
      */
     public static List<CheckedLine> listFiles() {
@@ -79,8 +85,10 @@ public class Main {
         return checkedLines;
     }
 
-    /** Writes the lines found
+    /**
+     * Writes the lines found
      * to the lines.txt file
+     *
      * @param checkedLines
      */
     public static void writeCheckedLines(List<CheckedLine> checkedLines) {
