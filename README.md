@@ -9,6 +9,9 @@ I do not take any responsibilities if you got infected by malware after checking
 By following the incoming instructions, you will be able to install this program and use it.
 To install the program, go to the [release page](https://github.com/Nyvil/SrcChecker/releases) and download the latest jar file.
 
+In order to use it put the jar in the wanted directory, open the cmd in that directory and run java -jar SrcChecker.jar.
+It'll create a lines.txt file in the same folder as the jar is in which will be filled with the Class path, class name, line and code the program found. 
+
 If you don't trust the jar file you can always download the entire repository and build the program on your own.
 
 # Bugs
