@@ -122,7 +122,7 @@ public class Main {
         try (BufferedWriter bw = Files.newBufferedWriter(getFileLocation().resolve("lines.txt"))) {
             for (CheckedLine checkedLine : checkedLines) {
                 final String filePath = checkedLine.getFilePath().replace('\\', '/');
-                bw.write(filePath + ":" + checkedLine.getLineNumber() + " | " + checkedLine.getLineContent() + "\n");
+                bw.write(filePath + ":" + checkedLine.getLineNumber() + " | " + checkedLine.getLineContent().trim() + "\n");
             }
         } catch (IOException e) {
             e.printStackTrace();
