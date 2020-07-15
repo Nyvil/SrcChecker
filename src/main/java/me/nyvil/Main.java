@@ -17,6 +17,8 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -29,9 +31,36 @@ public class Main {
 
 
     //TODO: If bored make a check for reflections (I'll prolly never do it)
-    public static void main(String[] args) {
+    public static void main(String... args) {
+        final NumberFormat formatter = new DecimalFormat("#0.00");
+        final long start = System.currentTimeMillis();
         final List<CheckedLine> checkedLines = listFiles();
-        writeCheckedLines(checkedLines);
+
+        if (args.length == 0) {
+            writeCheckedLines(checkedLines);
+            System.out.format("Successfully created & written to lines.txt. The file is in the same directory as the jar\n");
+            long end = System.currentTimeMillis();
+            
+            System.out.format("Finished in %s seconds!", formatter.format((end - start) / 1000d));
+            System.exit(0);
+            return;
+        }
+
+        if (args[0].equalsIgnoreCase("--console")) {
+            System.out.println("Output will be shown in console instead of in a file. ");
+            for (CheckedLine checkedLine : checkedLines) {
+                final String filePath = checkedLine.getFilePath().replace('\\', '/');
+                System.out.println(filePath + ":" + checkedLine.getLineNumber() + " | " + checkedLine.getLineContent() + "\n");
+            }
+        } else {
+            System.out.println("Not available! Available arguments: --console");
+            System.exit(0);
+            return;
+        }
+
+        long end = System.currentTimeMillis();
+        System.out.format("Finished in %s seconds!", formatter.format((end - start) / 1000d));
+        System.exit(0);
     }
 
     /**
@@ -68,7 +97,7 @@ public class Main {
                         for (String s : stringsToCheck) {
                             final String content = lines.get(line);
                             if (content.contains(s)) {
-                                final CheckedLine checkedLine = new CheckedLine(file.getFileName().toString(), line, content);
+                                final CheckedLine checkedLine = new CheckedLine(file.toAbsolutePath().resolve(file.toAbsolutePath()).toString(), file.getFileName().toString(), line, content);
                                 checkedLines.add(checkedLine);
                                 break;
                             }
@@ -94,7 +123,8 @@ public class Main {
     public static void writeCheckedLines(List<CheckedLine> checkedLines) {
         try (BufferedWriter bw = Files.newBufferedWriter(getFileLocation().resolve("lines.txt"))) {
             for (CheckedLine checkedLine : checkedLines) {
-                bw.write("File:" + checkedLine.getFileName() + " Line: " + checkedLine.getLineNumber() + " code: " + checkedLine.getLineContent() + "\n");
+                final String filePath = checkedLine.getFilePath().replace('\\', '/');
+                bw.write(filePath + ":" + checkedLine.getLineNumber() + " | " + checkedLine.getLineContent() + "\n");
             }
         } catch (IOException e) {
             e.printStackTrace();
