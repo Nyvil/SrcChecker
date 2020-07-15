@@ -25,8 +25,25 @@ import java.util.stream.Stream;
 
 public class Main {
 
-    private static String[] stringsToCheck = {"public static void main(String[] args)", "Runtime", "ProcessBuilder", "HttpURLConnection", "URLConnection", "Process", "isProcessRunning",
-            "isProcessRunningTitle"
+    private static String[] stringsToCheck = {
+            "public static void main(String[] args)",
+            "Runtime",
+            "ProcessBuilder",
+            "HttpURLConnection",
+            "URLConnection",
+            "Process",
+            "isProcessRunning",
+            "isProcessRunningTitle",
+            "System.getProperty",
+            "Socket",
+            "new Socket",
+            "ServerSocket",
+            "ThreadPool",
+            "InetAddress",
+            "socket.connect",
+            "System.getenv",
+            "Runtime.getRuntime().exec",
+            ".exec"
     };
 
 
@@ -36,27 +53,8 @@ public class Main {
         final long start = System.currentTimeMillis();
         final List<CheckedLine> checkedLines = listFiles();
 
-        if (args.length == 0) {
-            writeCheckedLines(checkedLines);
-            System.out.format("Successfully created & written to lines.txt. The file is in the same directory as the jar\n");
-            long end = System.currentTimeMillis();
-            
-            System.out.format("Finished in %s seconds!", formatter.format((end - start) / 1000d));
-            System.exit(0);
-            return;
-        }
-
-        if (args[0].equalsIgnoreCase("--console")) {
-            System.out.println("Output will be shown in console instead of in a file. ");
-            for (CheckedLine checkedLine : checkedLines) {
-                final String filePath = checkedLine.getFilePath().replace('\\', '/');
-                System.out.println(filePath + ":" + checkedLine.getLineNumber() + " | " + checkedLine.getLineContent() + "\n");
-            }
-        } else {
-            System.out.println("Not available! Available arguments: --console");
-            System.exit(0);
-            return;
-        }
+        writeCheckedLines(checkedLines);
+        System.out.format("Successfully created & written to lines.txt. The file is in the same directory as the jar\n");
 
         long end = System.currentTimeMillis();
         System.out.format("Finished in %s seconds!", formatter.format((end - start) / 1000d));
